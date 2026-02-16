@@ -1,0 +1,149 @@
+{
+    "nav": {
+        "villas": "VILLAS",
+        "yachts": "YACHTS",
+        "about": "ABOUT US",
+        "contact": "CONTACT"
+    },
+    "hero": {
+        "title": "Discover the Most Exclusive Villas and Yachts of the Aegean",
+        "subtitle": "Plan your dream vacation with our specially curated portfolio for a luxury accommodation and blue cruise experience.",
+        "cta_villas": "Discover Villas",
+        "cta_yachts": "Discover Yachts",
+        "discover_villas": "Discover Villas",
+        "discover_yachts": "Discover Yachts"
+    },
+    "filters": {
+        "title_villas": "Villas for Rent",
+        "title_yachts": "Yachts for Rent",
+        "location": "Location",
+        "checkin": "Check-in",
+        "checkout": "Check-out",
+        "guests": "Guests",
+        "search": "Search",
+        "sort_label": "Sort By",
+        "sort_recommended": "Recommended",
+        "sort_price_asc": "Price: Low to High",
+        "sort_price_desc": "Price: High to Low",
+        "amenity_pool": "Pool",
+        "amenity_ac": "A/C",
+        "amenity_wifi": "Wi-Fi"
+    },
+    "listing": {
+        "person": "Guests",
+        "cabin": "Cabins",
+        "per_day": "day",
+        "details_btn": "View Details",
+        "loading": "Loading...",
+        "error": "Listings cannot be displayed at the moment. Please try again later.",
+        "no_image": "No Image"
+    },
+    "details": {
+        "reviews": "reviews",
+        "share": "Share",
+        "save": "Save",
+        "show_all_photos": "All Photos",
+        "bedroom": "Bedroom",
+        "bathroom": "Bathroom",
+        "cabin": "Cabin",
+        "crew": "Crew",
+        "guest": "Guests",
+        "about_title": "About this place",
+        "amenities_title": "What this place offers",
+        "show_all_amenities": "Show all {{count}} features",
+        "location_title": "Location & Distances",
+        "map_error": "Map information not available.",
+        "dist_airport": "Airport",
+        "dist_beach": "Beach",
+        "dist_market": "Supermarket",
+        "dist_restaurant": "Restaurants",
+        "dist_hospital": "Hospital",
+        "dist_marina": "Marina",
+        "google_maps": "Open in Google Maps",
+        "similar_villas": "Browse Similar Villas",
+        "similar_yachts": "Browse Similar Yachts"
+    },
+    "booking": {
+        "per_night": "night",
+        "per_day": "day",
+        "checkin": "Check-in",
+        "checkout": "Check-out",
+        "select_date": "Select Date",
+        "guests_label": "Guests",
+        "guest_option": "{{count}} Guest",
+        "guest_option_plural": "{{count}} Guests",
+        "extras_title": "Extras",
+        "extra_transfer": "VIP Transfer (+4,500 ₺)",
+        "extra_chef": "Private Chef (+9,000 ₺/day)",
+        "breakdown_extras": "Extras",
+        "total": "Total",
+        "contact_info_title": "Contact Information",
+        "placeholder_name": "Full Name",
+        "placeholder_email": "Email",
+        "placeholder_phone": "Phone",
+        "book_btn": "Book Now",
+        "no_charge": "You won't be charged yet",
+        "success_title": "Request Received!",
+        "success_message": "Your booking request has been successfully created. We will contact you shortly.",
+        "back_home": "Back to Home",
+        "error_missing_fields": "Please fill in name, email, phone, and date range completely.",
+        "error_connection": "Could not connect to server.",
+        "error_generic": "An error occurred."
+    },
+    "about": {
+        "hero_title": "Our Story",
+        "hero_subtitle": "We work to create unforgettable memories in the most special corners of the Aegean.",
+        "story_title": "Our Passion: The Aegean",
+        "story_text1": "Our journey began in 2020 in the cool waters of Bodrum, shaped by the desire to offer our guests not just accommodation, but a lifestyle.",
+        "story_text2": "We select every villa and yacht as if it were our own home, providing service at the highest quality standards.",
+        "why_us_title": "Why Us?",
+        "reason1_title": "Curated Portfolio",
+        "reason1_desc": "Every property is personally inspected and selected by our team according to our quality and comfort standards.",
+        "reason2_title": "7/24 Concierge",
+        "reason2_desc": "Your private assistant is just a phone call away for any need throughout your holiday.",
+        "reason3_title": "Secure Booking",
+        "reason3_desc": "All our booking processes are legally secured and conducted transparently.",
+        "stats_years": "Years Experience",
+        "stats_guests": "Happy Guests",
+        "stats_properties": "Exclusive Properties"
+    },
+    "footer": {
+        "desc": "The address of luxury and comfort. We offer an unforgettable holiday experience with the most special villas and yachts of the Aegean.",
+        "quick_links": "QUICK LINKS",
+        "follow_us": "FOLLOW US",
+        "contact": "CONTACT",
+        "rights": "All rights reserved."
+    },
+    "services": {
+        "title": "Premium Services",
+        "villa": {
+            "transfer_title": "VIP Transfer",
+            "transfer_desc": "Comfortable and safe transport from airport to your villa.",
+            "chef_title": "Private Chef",
+            "chef_desc": "Professional chefs preparing special menus for your taste.",
+            "events_title": "Special Events",
+            "events_desc": "Detailed planning and organization service for your special days.",
+            "cleaning_title": "Daily Housekeeping",
+            "cleaning_desc": "Regular cleaning and hygiene service every day of your holiday."
+        },
+        "yacht": {
+            "watersports_title": "Water Sports",
+            "watersports_desc": "Fun moments with jetski, seabob and diving equipment.",
+            "tour_title": "Skippered Tour",
+            "tour_desc": "Discover the hidden bays of the Aegean with our experienced captains.",
+            "provisions_title": "Provision Supply",
+            "provisions_desc": "Food and beverage shopping prepared according to your preferences.",
+            "transfer_title": "VIP Transfer",
+            "transfer_desc": "Transport to your yacht with luxury vehicles from airport."
+        }
+    },
+    "featured": {
+        "title": "Featured Collections",
+        "subtitle": "Explore our most exclusive villas and yachts",
+        "view_all": "View All"
+    },
+    "testimonials": {
+        "title": "Client Experiences",
+        "subtitle": "What our distinguished guests have to say about their stay with us."
+    }
+}

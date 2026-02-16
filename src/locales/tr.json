@@ -1,0 +1,148 @@
+{
+    "nav": {
+        "villas": "VİLLALAR",
+        "yachts": "YATLAR",
+        "about": "HAKKIMIZDA",
+        "contact": "İLETİŞİM"
+    },
+    "hero": {
+        "title": "Ege'nin En Özel Villa ve Yatlarını Keşfedin",
+        "subtitle": "Lüks konaklama ve mavi yolculuk deneyimi için özel seçilmiş portföyümüzle hayalinizdeki tatili planlayın.",
+        "cta_villas": "Villaları Keşfet",
+        "cta_yachts": "Yatları Keşfet",
+        "discover_villas": "Villaları Keşfet",
+        "discover_yachts": "Yatları Keşfet"
+    },
+    "filters": {
+        "title_villas": "Kiralık Villalar",
+        "title_yachts": "Kiralık Yatlar",
+        "location": "Konum",
+        "checkin": "Giriş Tarihi",
+        "checkout": "Çıkış Tarihi",
+        "guests": "Misafir",
+        "search": "Ara",
+        "sort_label": "Sıralama",
+        "sort_recommended": "Önerilen",
+        "sort_price_asc": "Fiyat: Artan",
+        "sort_price_desc": "Fiyat: Azalan",
+        "amenity_pool": "Havuz",
+        "amenity_ac": "Klima",
+        "amenity_wifi": "Wi-Fi"
+    },
+    "listing": {
+        "person": "Kişilik",
+        "cabin": "Kabin",
+        "per_day": "gün",
+        "details_btn": "Detayları Gör",
+        "loading": "Yükleniyor...",
+        "error": "İlanlar şu anda görüntülenemiyor. Lütfen daha sonra tekrar deneyiniz.",
+        "no_image": "Görsel Yok"
+    },
+    "details": {
+        "reviews": "değerlendirme",
+        "share": "Paylaş",
+        "save": "Kaydet",
+        "show_all_photos": "Tüm Fotoğraflar",
+        "bedroom": "Yatak Odası",
+        "bathroom": "Banyo",
+        "cabin": "Kabin",
+        "crew": "Mürettebat",
+        "guest": "Misafir",
+        "about_title": "Mekan hakkında",
+        "amenities_title": "Bu mekan ne sunuyor",
+        "show_all_amenities": "Tüm {{count}} özelliği gör",
+        "location_title": "Konum & Mesafeler",
+        "map_error": "Harita bilgisi bulunamadı.",
+        "dist_airport": "Havalimanı",
+        "dist_beach": "Plaj",
+        "dist_market": "Süpermarket",
+        "dist_restaurant": "Restoranlar",
+        "dist_hospital": "Hastane",
+        "dist_marina": "Marina",
+        "google_maps": "Google Maps'te Aç",
+        "similar_villas": "Benzer Villalara Gözatın",
+        "similar_yachts": "Benzer Yatlara Gözatın"
+    },
+    "booking": {
+        "per_night": "gece",
+        "per_day": "gün",
+        "checkin": "Giriş",
+        "checkout": "Çıkış",
+        "select_date": "Tarih seç",
+        "guests_label": "Misafir",
+        "guest_option": "{{count}} Misafir",
+        "extras_title": "Ekstralar",
+        "extra_transfer": "VIP Transfer (+4.500 ₺)",
+        "extra_chef": "Özel Şef (+9.000 ₺/gün)",
+        "breakdown_extras": "Ekstralar",
+        "total": "Toplam",
+        "contact_info_title": "İletişim Bilgileri",
+        "placeholder_name": "Ad Soyad",
+        "placeholder_email": "E-posta",
+        "placeholder_phone": "Telefon",
+        "book_btn": "Rezervasyon Yap",
+        "no_charge": "Henüz ücret alınmayacak",
+        "success_title": "Talebiniz Alındı!",
+        "success_message": "Rezervasyon talebiniz başarıyla oluşturulmuştur. En kısa sürede sizinle iletişime geçeceğiz.",
+        "back_home": "Ana Sayfaya Dön",
+        "error_missing_fields": "Lütfen ad, e-posta, telefon ve tarih aralığını eksiksiz doldurun.",
+        "error_connection": "Sunucuya bağlanılamadı.",
+        "error_generic": "Bir hata oluştu."
+    },
+    "about": {
+        "hero_title": "Hikayemiz",
+        "hero_subtitle": "Ege'nin en özel köşelerinde, unutulmaz anılar biriktirmeniz için çalışıyoruz.",
+        "story_title": "Tutkumuz Ege",
+        "story_text1": "2020 yılında Bodrum'un serin sularında başlayan yolculuğumuz, misafirlerimize sadece bir konaklama değil, bir yaşam tarzı sunma arzusuyla şekillendi.",
+        "story_text2": "Her villa ve yatı kendi evimiz gibi özenle seçiyor, en yüksek kalite standartlarında hizmet veriyoruz.",
+        "why_us_title": "Neden Biz?",
+        "reason1_title": "Özenle Seçilmiş Portföy",
+        "reason1_desc": "Her mülk, kalite ve konfor standartlarımıza göre bizzat ekibimiz tarafından incelenir ve seçilir.",
+        "reason2_title": "7/24 Concierge",
+        "reason2_desc": "Tatiliniz boyunca size özel asistanınız her türlü ihtiyacınız için bir telefon uzağınızda.",
+        "reason3_title": "Güvenli Rezervasyon",
+        "reason3_desc": "Tüm rezervasyon süreçlerimiz yasal güvence altında ve şeffaf bir şekilde yürütülür.",
+        "stats_years": "Yıllık Tecrübe",
+        "stats_guests": "Mutlu Misafir",
+        "stats_properties": "Özel Mülk"
+    },
+    "footer": {
+        "desc": "Lüksün ve konforun adresi. Ege'nin en özel villa ve yatlarıyla unutulmaz bir tatil deneyimi sunuyoruz.",
+        "quick_links": "HIZLI LİNKLER",
+        "follow_us": "BİZİ TAKİP EDİN",
+        "contact": "İLETİŞİM",
+        "rights": "Tüm hakları saklıdır."
+    },
+    "services": {
+        "title": "Premium Hizmetler",
+        "villa": {
+            "transfer_title": "VIP Transfer",
+            "transfer_desc": "Havaalanından villanıza konforlu ve güvenli ulaşım.",
+            "chef_title": "Özel Aşçı",
+            "chef_desc": "Damak zevkinize uygun özel menüler hazırlayan profesyonel şefler.",
+            "events_title": "Organizasyon & Etkinlik",
+            "events_desc": "Özel günleriniz için detaylı planlama ve organizasyon hizmeti.",
+            "cleaning_title": "Günlük Temizlik",
+            "cleaning_desc": "Tatiliniz boyunca her gün düzenli temizlik ve hijyen hizmeti."
+        },
+        "yacht": {
+            "watersports_title": "Su Sporları",
+            "watersports_desc": "Jetski, seabob ve dalış ekipmanları ile eğlenceli anlar.",
+            "tour_title": "Kaptanlı Tur",
+            "tour_desc": "Deneyimli kaptanlarımızla Ege'nin gizli koylarını keşfedin.",
+            "provisions_title": "Kumanya Tedariği",
+            "provisions_desc": "Tercihlerinize göre hazırlanan yiyecek ve içecek alışverişi.",
+            "transfer_title": "VIP Transfer",
+            "transfer_desc": "Havaalanından yatınıza lüks araçlarla ulaşım."
+        }
+    },
+    "featured": {
+        "title": "Öne Çıkan Koleksiyonlar",
+        "subtitle": "En özel villa ve yatlarımızı keşfedin",
+        "view_all": "Tümünü Gör"
+    },
+    "testimonials": {
+        "title": "Müşteri Deneyimleri",
+        "subtitle": "Değerli misafirlerimizin konaklamaları hakkındaki düşünceleri."
+    }
+}

@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Property {
+  id          String   @id @default(uuid())
+  name        String
+  type        String   // VILLA or YACHT
+  dailyPrice  Float
+  capacity    Int      @default(0)
+  cabins      Int?
+  location    String
+  latitude    Float?
+  longitude   Float?
+  description String
+  amenities   String   @default("[]") // JSON string
+  images      Image[]
+  bookings    Booking[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Image {
+  id         String   @id @default(uuid())
+  url        String
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+}
+
+model ExtraService {
+  id        String    @id @default(uuid())
+  name      String
+  price     Float
+  bookings  Booking[]
+}
+
+model Booking {
+  id            String        @id @default(uuid())
+  startDate     DateTime
+  endDate       DateTime
+  totalPrice    Float
+  status        String        @default("PENDING") // PENDING, CONFIRMED, CANCELLED
+  customerName  String
+  customerEmail String
+  customerPhone String
+  guests        Int
+  propertyId    String
+  property      Property      @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  extraServices ExtraService[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model Admin {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Settings {
+  id              String   @id @default(uuid())
+  siteName        String   @default("Şenay Villa & Yat")
+  siteLogo        String?
+  contactPhone    String   @default("+90 555 555 55 55")
+  contactEmail    String   @default("info@senayvillayat.com")
+  notificationEmail String? // For system notifications and footer display
+  whatsappNumber  String? // New field
+  linkedinUrl     String? // New field
+  address         String   @default("Fethiye, Muğla")
+  youtubeUrl      String?
+  instagramUrl    String?
+  facebookUrl     String?
+  footerAboutText String   @default("En iyi tatil deneyimi için buradayız.")
+  copyrightText   String   @default("© 2024 Şenay Villa & Yat. Tüm hakları saklıdır.")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
