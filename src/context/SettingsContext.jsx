@@ -1,5 +1,6 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { getBackendUrl } from '../utils/urlHelper';
 
 const SettingsContext = createContext();
 
@@ -9,7 +10,6 @@ export const SettingsProvider = ({ children }) => {
     const [settings, setSettings] = useState({
         siteName: 'Şenay Villa & Yat',
         siteLogo: null,
-        contactPhone: '+90 555 555 55 55',
         contactPhone: '+90 555 555 55 55',
         contactEmail: 'info@senayvillayat.com',
         notificationEmail: '',
@@ -26,7 +26,7 @@ export const SettingsProvider = ({ children }) => {
 
     const fetchSettings = async () => {
         try {
-            const res = await fetch('http://localhost:5001/api/settings');
+            const res = await fetch(`${getBackendUrl()}/api/settings`);
             if (res.ok) {
                 const data = await res.json();
                 setSettings(data);

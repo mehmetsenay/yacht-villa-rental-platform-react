@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
+import { getBackendUrl, getImageUrl as getFullImageUrl } from '../utils/urlHelper';
 import { Search, MapPin, Users, Star, Minus, Plus } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker';
@@ -60,7 +61,7 @@ const ListingPage = () => {
             if (startDate) params.append('startDate', startDate.toLocaleDateString('en-CA'));
             if (endDate) params.append('endDate', endDate.toLocaleDateString('en-CA'));
 
-            const response = await fetch(`http://localhost:5001/api/properties?${params.toString()}`);
+            const response = await fetch(`${getBackendUrl()}/api/properties?${params.toString()}`);
             if (!response.ok) throw new Error('Veriler yüklenirken hata oluştu');
             const data = await response.json();
 
@@ -119,7 +120,7 @@ const ListingPage = () => {
 
     const getImageUrl = (path) => {
         if (!path) return 'https://placehold.co/600x400?text=No+Image';
-        return path.startsWith('http') ? path : 'http://localhost:5001' + path;
+        return getFullImageUrl(path);
     };
 
     return (

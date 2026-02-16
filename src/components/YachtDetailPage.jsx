@@ -9,6 +9,7 @@ import PhotoGalleryModal from './PhotoGalleryModal';
 import PremiumServices from './PremiumServices';
 
 import { useTranslation } from 'react-i18next';
+import { getBackendUrl, getImageUrl as getFullImageUrl } from '../utils/urlHelper';
 
 const YachtDetailPage = () => {
   const { t, i18n } = useTranslation();
@@ -69,12 +70,12 @@ const YachtDetailPage = () => {
   useEffect(() => {
     const getImageUrl = (path) => {
       if (!path) return yachtImg;
-      return path.startsWith('http') ? path : 'http://localhost:5001' + path;
+      return getFullImageUrl(path);
     };
 
     const fetchYacht = async () => {
       try {
-        const response = await fetch(`http://localhost:5001/api/properties/${id}`);
+        const response = await fetch(`${getBackendUrl()}/api/properties/${id}`);
         if (!response.ok) throw new Error('Yat bilgileri yüklenemedi');
         const data = await response.json();
 
@@ -105,7 +106,7 @@ const YachtDetailPage = () => {
 
     const fetchSimilarYachts = async () => {
       try {
-        const response = await fetch('http://localhost:5001/api/properties');
+        const response = await fetch(`${getBackendUrl()}/api/properties`);
         if (!response.ok) return;
         const data = await response.json();
         // Filter out current yacht AND ensure type is YACHT
@@ -441,7 +442,7 @@ const YachtDetailPage = () => {
                         extraServices: [] // Can be implemented if needed
                       };
 
-                      const res = await fetch('http://localhost:5001/api/bookings', {
+                      const res = await fetch(`${getBackendUrl()}/api/bookings`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload)
@@ -486,7 +487,7 @@ const YachtDetailPage = () => {
             {similarYachts.map(item => {
               // Ensure we have a valid image
               const itemImg = item.images && item.images.length > 0
-                ? (item.images[0].url.startsWith('http') ? item.images[0].url : `http://localhost:5001${item.images[0].url}`)
+                ? getFullImageUrl(item.images[0].url)
                 : yachtImg;
 
               return (

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { getImageUrl as getFullImageUrl } from '../utils/urlHelper';
 import { Instagram, Facebook, Youtube, MapPin, Phone, Mail, Linkedin, MessageCircle } from 'lucide-react';
 import logo from '../assets/logo.png';
 import { useSettings } from '../context/SettingsContext';
@@ -12,7 +13,7 @@ const Footer = () => {
                 <div className="footer-grid">
                     {/* Brand Column */}
                     <div className="footer-col brand-col">
-                        <img src={settings?.siteLogo ? `http://localhost:5001${settings.siteLogo}` : logo} alt={settings?.siteName} className="footer-logo" />
+                        <img src={settings?.siteLogo ? getFullImageUrl(settings.siteLogo) : logo} alt={settings?.siteName} className="footer-logo" />
                         <p className="brand-desc">
                             {settings?.footerAboutText || "Lüksün ve konforun adresi. Ege'nin en özel villa ve yatlarıyla unutulmaz bir tatil deneyimi sunuyoruz."}
                         </p>

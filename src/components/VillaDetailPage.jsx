@@ -11,6 +11,7 @@ import L from 'leaflet';
 
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet';
+import { getBackendUrl, getImageUrl as getFullImageUrl } from '../utils/urlHelper';
 
 const VillaDetailPage = () => {
   const { t, i18n } = useTranslation();
@@ -90,16 +91,15 @@ const VillaDetailPage = () => {
   useEffect(() => {
     const getImageUrl = (path) => {
       if (!path) return villaImg;
-      return path.startsWith('http') ? path : 'http://localhost:5001' + path;
+      return getFullImageUrl(path);
     };
 
     const fetchVilla = async () => {
       try {
-        const response = await fetch(`http://localhost:5001/api/properties/${id}`);
+        const response = await fetch(`${getBackendUrl()}/api/properties/${id}`);
         if (!response.ok) throw new Error('Villa bilgileri yüklenemedi');
         const data = await response.json();
 
-        // Helper to get dates between start and end
         const getDatesInRange = (startDate, endDate) => {
           const date = new Date(startDate);
           const end = new Date(endDate);
@@ -147,7 +147,7 @@ const VillaDetailPage = () => {
 
     const fetchSimilarVillas = async () => {
       try {
-        const response = await fetch('http://localhost:5001/api/properties');
+        const response = await fetch(`${getBackendUrl()}/api/properties`);
         if (!response.ok) return;
         const data = await response.json();
         // Filter out current villa AND ensure type is VILLA
@@ -495,7 +495,7 @@ const VillaDetailPage = () => {
                         guests: guests
                       };
 
-                      const res = await fetch('http://localhost:5001/api/bookings', {
+                      const res = await fetch(`${getBackendUrl()}/api/bookings`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload)
@@ -534,7 +534,7 @@ const VillaDetailPage = () => {
             {similarVillas.map(item => {
               // Ensure we have a valid image
               const itemImg = item.images && item.images.length > 0
-                ? (item.images[0].url.startsWith('http') ? item.images[0].url : `http://localhost:5001${item.images[0].url}`)
+                ? getFullImageUrl(item.images[0].url)
                 : villaImg;
 
               return (

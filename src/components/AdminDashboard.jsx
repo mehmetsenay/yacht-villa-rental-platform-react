@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getBackendUrl, getImageUrl as getFullImageUrl } from '../utils/urlHelper';
 import { LayoutDashboard, List, Settings, LogOut, Trash2, Edit2, Plus, Save, Upload } from 'lucide-react';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -75,15 +76,15 @@ const AdminDashboard = () => {
         setLoading(true);
         try {
             if (activeTab === 'reservations') {
-                const res = await fetch('http://localhost:5001/api/bookings', {
+                const res = await fetch(`${getBackendUrl()}/api/bookings`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (res.ok) setBookings(await res.json());
             } else if (activeTab === 'listings') {
-                const res = await fetch('http://localhost:5001/api/properties');
+                const res = await fetch(`${getBackendUrl()}/api/properties`);
                 if (res.ok) setProperties(await res.json());
             } else if (activeTab === 'settings') {
-                const res = await fetch('http://localhost:5001/api/settings');
+                const res = await fetch(`${getBackendUrl()}/api/settings`);
                 if (res.ok) {
                     const data = await res.json();
                     setSettingsData({
@@ -119,7 +120,7 @@ const AdminDashboard = () => {
         if (!window.confirm("Bu ilanı silmek istediğinize emin misiniz?")) return;
         const token = localStorage.getItem('adminToken');
         try {
-            await fetch(`http://localhost:5001/api/properties/${id}`, {
+            await fetch(`${getBackendUrl()}/api/properties/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -195,7 +196,7 @@ const AdminDashboard = () => {
         if (!window.confirm("Bu fotoğrafı silmek istediğinize emin misiniz?")) return;
         const token = localStorage.getItem('adminToken');
         try {
-            const res = await fetch(`http://localhost:5001/api/properties/${editingProperty.id}/images/${imageId}`, {
+            const res = await fetch(`${getBackendUrl()}/api/properties/${editingProperty.id}/images/${imageId}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -217,7 +218,7 @@ const AdminDashboard = () => {
 
     const getImageUrl = (path) => {
         if (!path) return 'https://placehold.co/600x400';
-        return path.startsWith('http') ? path : 'http://localhost:5001' + path;
+        return getFullImageUrl(path);
     };
 
 
@@ -259,7 +260,7 @@ const AdminDashboard = () => {
         }
 
         try {
-            const res = await fetch('http://localhost:5001/api/settings', {
+            const res = await fetch(`${getBackendUrl()}/api/settings`, {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}` },
                 body: data
@@ -295,7 +296,7 @@ const AdminDashboard = () => {
         if (formData.latitude) data.append('latitude', formData.latitude);
         if (formData.longitude) data.append('longitude', formData.longitude);
         data.append('description', formData.description);
-        data.append('amenities', JSON.stringify(formData.amenities));
+        data.append('amenities', JSON.stringify(formData.amenities || []));
         if (formData.capacity) data.append('capacity', formData.capacity);
         if (formData.cabins) data.append('cabins', formData.cabins);
 
@@ -308,8 +309,8 @@ const AdminDashboard = () => {
 
         try {
             const url = editingProperty
-                ? `http://localhost:5001/api/properties/${editingProperty.id}`
-                : 'http://localhost:5001/api/properties';
+                ? `${getBackendUrl()}/api/properties/${editingProperty.id}`
+                : `${getBackendUrl()}/api/properties`;
 
             const method = editingProperty ? 'PUT' : 'POST';
 
@@ -325,7 +326,8 @@ const AdminDashboard = () => {
                 setShowModal(false);
                 fetchData(token);
             } else {
-                alert("Kaydetme başarısız.");
+                const errorData = await res.json();
+                alert(`Kaydetme başarısız: ${errorData.error || 'Bilinmeyen hata'} \n ${errorData.details || ''}`);
             }
         } catch (error) {
             console.error(error);
@@ -471,7 +473,7 @@ const AdminDashboard = () => {
                                                 <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
                                                     {existingLogoUrl && (
                                                         <div style={{ padding: '10px', border: '1px solid #e5e5e5', borderRadius: '12px', background: '#f5f5f7' }}>
-                                                            <img src={`http://localhost:5001${existingLogoUrl}`} alt="Logo" style={{ height: '40px' }} />
+                                                            <img src={getFullImageUrl(existingLogoUrl)} alt="Logo" style={{ height: '40px' }} />
                                                         </div>
                                                     )}
                                                     <label style={{ ...styles.primaryBtn, background: '#f5f5f7', color: '#1d1d1f', cursor: 'pointer' }}>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getBackendUrl } from '../utils/urlHelper';
 
 const AdminLogin = () => {
     const [email, setEmail] = useState('');
@@ -12,7 +13,7 @@ const AdminLogin = () => {
         setError(null);
 
         try {
-            const response = await fetch('http://localhost:5001/api/admin/login', {
+            const response = await fetch(`${getBackendUrl()}/api/admin/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password })

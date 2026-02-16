@@ -3,7 +3,7 @@ import path from 'path';
 import fs from 'fs';
 
 // Ensure uploads directory exists
-const uploadDir = 'uploads';
+const uploadDir = path.join(__dirname, '../../villalar-foto'); // absolute path relative to this file
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir);
 }

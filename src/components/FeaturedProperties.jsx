@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { getBackendUrl, getImageUrl as getFullImageUrl } from '../utils/urlHelper';
 import { useTranslation } from 'react-i18next';
 import { Star, MapPin, Users, ArrowRight } from 'lucide-react';
 
@@ -13,7 +14,7 @@ const FeaturedProperties = () => {
         const fetchProperties = async () => {
             try {
                 // Fetch all properties - in a real app create a specific endpoint for featured
-                const response = await fetch('http://localhost:5001/api/properties');
+                const response = await fetch(`${getBackendUrl()}/api/properties`);
                 if (!response.ok) throw new Error('Failed to fetch');
                 const data = await response.json();
 
@@ -32,7 +33,7 @@ const FeaturedProperties = () => {
 
     const getImageUrl = (path) => {
         if (!path) return 'https://placehold.co/600x400?text=No+Image';
-        return path.startsWith('http') ? path : 'http://localhost:5001' + path;
+        return getFullImageUrl(path);
     };
 
     if (loading || error || properties.length === 0) return null;

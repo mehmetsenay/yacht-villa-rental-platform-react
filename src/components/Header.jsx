@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { getImageUrl as getFullImageUrl } from '../utils/urlHelper';
 import { Menu, X, Globe } from 'lucide-react';
 import logo from '../assets/logo.png';
 import ContactModal from './ContactModal';
@@ -40,7 +41,7 @@ const Header = () => {
                 <div className="container nav-inner">
                     {/* Logo */}
                     <Link to="/" className="nav-logo">
-                        <img src={settings?.siteLogo ? `http://localhost:5001${settings.siteLogo}` : logo} alt={settings?.siteName || "Şenay Villa Yat"} />
+                        <img src={settings?.siteLogo ? getFullImageUrl(settings.siteLogo) : logo} alt={settings?.siteName || "Şenay Villa Yat"} />
                     </Link>
 
                     {/* Desktop Menu */}
