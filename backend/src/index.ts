@@ -18,11 +18,26 @@ app.use((req, res, next) => {
     next();
 });
 
+const allowedOrigins = [
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'https://yacht-villa-rental-platform-react.vercel.app',
+    'https://yacht-villa-rental-platform-react.onrender.com'
+];
+
 app.use(cors({
-    origin: ['http://localhost:5173', 'http://127.0.0.1:5173', 'https://yacht-villa-rental-platform-react.vercel.app'],
+    origin: function (origin, callback) {
+        // allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) === -1) {
+            const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+            return callback(new Error(msg), false);
+        }
+        return callback(null, true);
+    },
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin']
 }));
 app.use(express.json());
 // Serve uploaded images statically
