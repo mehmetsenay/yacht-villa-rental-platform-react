@@ -80,15 +80,15 @@ const AdminDashboard = () => {
         setLoading(true);
         try {
             if (activeTab === 'reservations') {
-                const res = await fetch(`${getBackendUrl()}/api/bookings`, {
+                const res = await fetch(`${getBackendUrl()}/bookings`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (res.ok) setBookings(await res.json());
             } else if (activeTab === 'listings') {
-                const res = await fetch(`${getBackendUrl()}/api/properties`);
+                const res = await fetch(`${getBackendUrl()}/properties`);
                 if (res.ok) setProperties(await res.json());
             } else if (activeTab === 'settings') {
-                const res = await fetch(`${getBackendUrl()}/api/settings`);
+                const res = await fetch(`${getBackendUrl()}/settings`);
                 if (res.ok) {
                     const data = await res.json();
                     setSettingsData({
@@ -125,7 +125,7 @@ const AdminDashboard = () => {
         const token = localStorage.getItem('adminToken');
         setIsDeleting(id);
         try {
-            await fetch(`${getBackendUrl()}/api/properties/${id}`, {
+            await fetch(`${getBackendUrl()}/properties/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -203,7 +203,7 @@ const AdminDashboard = () => {
         if (!window.confirm("Bu fotoğrafı silmek istediğinize emin misiniz?")) return;
         const token = localStorage.getItem('adminToken');
         try {
-            const res = await fetch(`${getBackendUrl()}/api/properties/${editingProperty.id}/images/${imageId}`, {
+            const res = await fetch(`${getBackendUrl()}/properties/${editingProperty.id}/images/${imageId}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -267,7 +267,7 @@ const AdminDashboard = () => {
         }
 
         try {
-            const res = await fetch(`${getBackendUrl()}/api/settings`, {
+            const res = await fetch(`${getBackendUrl()}/settings`, {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}` },
                 body: data
@@ -319,8 +319,8 @@ const AdminDashboard = () => {
         setIsSaving(true);
         try {
             const url = editingProperty
-                ? `${getBackendUrl()}/api/properties/${editingProperty.id}`
-                : `${getBackendUrl()}/api/properties`;
+                ? `${getBackendUrl()}/properties/${editingProperty.id}`
+                : `${getBackendUrl()}/properties`;
 
             const method = editingProperty ? 'PUT' : 'POST';
 

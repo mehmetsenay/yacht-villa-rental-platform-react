@@ -97,7 +97,7 @@ const VillaDetailPage = () => {
 
     const fetchVilla = async () => {
       try {
-        const response = await fetch(`${getBackendUrl()}/api/properties/${id}`);
+        const response = await fetch(`${getBackendUrl()}/properties/${id}`);
         if (!response.ok) throw new Error('Villa bilgileri yüklenemedi');
         const data = await response.json();
 
@@ -148,7 +148,7 @@ const VillaDetailPage = () => {
 
     const fetchSimilarVillas = async () => {
       try {
-        const response = await fetch(`${getBackendUrl()}/api/properties`);
+        const response = await fetch(`${getBackendUrl()}/properties`);
         if (!response.ok) return;
         const data = await response.json();
         // Filter out current villa AND ensure type is VILLA
@@ -496,7 +496,7 @@ const VillaDetailPage = () => {
                         guests: guests
                       };
 
-                      const res = await fetch(`${getBackendUrl()}/api/bookings`, {
+                      const res = await fetch(`${getBackendUrl()}/bookings`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload)

@@ -14,7 +14,7 @@ const FeaturedProperties = () => {
         const fetchProperties = async () => {
             try {
                 // Fetch all properties - in a real app create a specific endpoint for featured
-                const response = await fetch(`${getBackendUrl()}/api/properties`);
+                const response = await fetch(`${getBackendUrl()}/properties`);
                 if (!response.ok) throw new Error('Failed to fetch');
                 const data = await response.json();
 

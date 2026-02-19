@@ -26,7 +26,7 @@ export const SettingsProvider = ({ children }) => {
 
     const fetchSettings = async () => {
         try {
-            const res = await fetch(`${getBackendUrl()}/api/settings`);
+            const res = await fetch(`${getBackendUrl()}/settings`);
             if (res.ok) {
                 const data = await res.json();
                 setSettings(data);

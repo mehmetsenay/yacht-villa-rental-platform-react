@@ -64,7 +64,7 @@ const ListingPage = () => {
             if (startDate) params.append('startDate', startDate.toLocaleDateString('en-CA'));
             if (endDate) params.append('endDate', endDate.toLocaleDateString('en-CA'));
 
-            const response = await fetch(`${getBackendUrl()}/api/properties?${params.toString()}`);
+            const response = await fetch(`${getBackendUrl()}/properties?${params.toString()}`);
             if (!response.ok) throw new Error('Veriler yüklenirken hata oluştu');
             const data = await response.json();
 

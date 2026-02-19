@@ -13,7 +13,7 @@ const AdminLogin = () => {
         setError(null);
 
         try {
-            const response = await fetch(`${getBackendUrl()}/api/admin/login`, {
+            const response = await fetch(`${getBackendUrl()}/admin/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password })

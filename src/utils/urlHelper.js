@@ -4,9 +4,9 @@ export const getBackendUrl = () => {
     if (url.endsWith('/')) {
         url = url.slice(0, -1);
     }
-    // Remove trailing /api to prevent double /api/api
-    if (url.endsWith('/api')) {
-        url = url.slice(0, -4);
+    // Ensure it ends with /api
+    if (!url.endsWith('/api')) {
+        url += '/api';
     }
     return url;
 };

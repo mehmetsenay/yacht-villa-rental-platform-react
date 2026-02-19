@@ -76,7 +76,7 @@ const YachtDetailPage = () => {
 
     const fetchYacht = async () => {
       try {
-        const response = await fetch(`${getBackendUrl()}/api/properties/${id}`);
+        const response = await fetch(`${getBackendUrl()}/properties/${id}`);
         if (!response.ok) throw new Error('Yat bilgileri yüklenemedi');
         const data = await response.json();
 
@@ -107,7 +107,7 @@ const YachtDetailPage = () => {
 
     const fetchSimilarYachts = async () => {
       try {
-        const response = await fetch(`${getBackendUrl()}/api/properties`);
+        const response = await fetch(`${getBackendUrl()}/properties`);
         if (!response.ok) return;
         const data = await response.json();
         // Filter out current yacht AND ensure type is YACHT
@@ -443,7 +443,7 @@ const YachtDetailPage = () => {
                         extraServices: [] // Can be implemented if needed
                       };
 
-                      const res = await fetch(`${getBackendUrl()}/api/bookings`, {
+                      const res = await fetch(`${getBackendUrl()}/bookings`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload)
