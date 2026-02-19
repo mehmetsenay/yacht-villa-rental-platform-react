@@ -231,6 +231,22 @@ a {
   margin-bottom: 60px;
 }
 
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  /* Ensure it spins correctly */
+}
+
 .section-title {
   font-size: 2.5rem;
   font-weight: 600;

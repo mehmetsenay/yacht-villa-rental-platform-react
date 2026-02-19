@@ -12,6 +12,7 @@ import L from 'leaflet';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet';
 import { getBackendUrl, getImageUrl as getFullImageUrl } from '../utils/urlHelper';
+import LoadingSpinner from './ui/LoadingSpinner';
 
 const VillaDetailPage = () => {
   const { t, i18n } = useTranslation();
@@ -176,9 +177,9 @@ const VillaDetailPage = () => {
     );
   }
 
-  if (loading) return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{t('listing.loading')}</div>;
+  if (loading) return <LoadingSpinner />;
   if (error) return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'red' }}>{error}</div>;
-  if (!villa) return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Yükleniyor...</div>;
+  if (!villa) return <LoadingSpinner />;
 
   // Calculation Logic
   const calculateTotal = () => {

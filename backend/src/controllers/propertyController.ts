@@ -32,31 +32,57 @@ const slugify = (text: string) => {
 };
 
 // Helper function to upload file to Supabase
-const uploadToSupabase = async (file: Express.Multer.File, folder: string): Promise<string | null> => {
+const uploadToSupabase = async (file: Express.Multer.File, folder: string, bucket: string): Promise<string | null> => {
     try {
         const fileContent = await fs.promises.readFile(file.path);
         const fileName = `${Date.now()}-${Math.round(Math.random() * 1000)}-${slugify(file.originalname)}`;
         const filePath = `${folder}/${fileName}`;
 
-        console.log(`Attempting upload to Supabase: ${filePath}`);
+        console.log(`Attempting upload to Supabase Bucket: ${bucket}, Path: ${filePath}`);
 
-        const { data, error } = await supabase.storage
-            .from('villalar-foto')
+        // Try to upload
+        let { data, error } = await supabase.storage
+            .from(bucket)
             .upload(filePath, fileContent, {
                 contentType: file.mimetype,
                 upsert: false
             });
 
+        // If bucket doesn't exist, try to create it (if we have permissions)
+        if (error && (error as any).message && (error as any).message.includes('bucket not found')) {
+            console.warn(`Bucket '${bucket}' not found. Attempting to create...`);
+            const { data: bucketData, error: bucketError } = await supabase.storage.createBucket(bucket, {
+                public: true
+            });
+
+            if (bucketError) {
+                console.error(`Failed to create bucket '${bucket}':`, bucketError);
+                // Return null or throw? Let's return null but log clearly.
+                // It might work if the user creates it manually.
+                return null;
+            }
+
+            console.log(`Bucket '${bucket}' created successfully. Retrying upload...`);
+            // Retry upload
+            const retry = await supabase.storage
+                .from(bucket)
+                .upload(filePath, fileContent, {
+                    contentType: file.mimetype,
+                    upsert: false
+                });
+            data = retry.data;
+            error = retry.error;
+        }
+
         if (error) {
             console.error('Supabase upload error:', error);
-            // Log the error details deeply if possible
             if ('statusCode' in error) console.error('Status Code:', (error as any).statusCode);
             if ('message' in error) console.error('Message:', (error as any).message);
             return null;
         }
 
-        // Manually construct public URL to ensure it's correct
-        const manualPublicUrl = `${supabaseUrl}/storage/v1/object/public/villalar-foto/${filePath}`;
+        // Manually construct public URL using the dynamic bucket name
+        const manualPublicUrl = `${supabaseUrl}/storage/v1/object/public/${bucket}/${filePath}`;
         console.log("Upload successful. Generated Public URL:", manualPublicUrl);
 
         // Delete local file after upload
@@ -154,12 +180,14 @@ export const createProperty = async (req: Request, res: Response) => {
 
     try {
         const slug = slugify(name);
+        // Determine bucket based on type
+        const bucketName = (type === 'YACHT') ? 'yatlar-foto' : 'villalar-foto';
 
         const uploadedUrls: string[] = [];
 
         if (files && files.length > 0) {
             for (const file of files) {
-                const publicUrl = await uploadToSupabase(file, slug);
+                const publicUrl = await uploadToSupabase(file, slug, bucketName);
                 if (publicUrl) {
                     uploadedUrls.push(publicUrl);
                 }
@@ -247,10 +275,15 @@ export const updateProperty = async (req: Request, res: Response) => {
         // 2. Handle File Uploads
         if (files && files.length > 0) {
             const targetSlug = slugify(name || property.name);
+            // Determine bucket based on type (from update body or existing property? Body is safer if type changed)
+            // If type is not in body, we should fallback to property.type, but typically type is required in form.
+            // Let's assume body has it or fallback.
+            const targetType = type || property.type;
+            const bucketName = (targetType === 'YACHT') ? 'yatlar-foto' : 'villalar-foto';
 
             const uploadedUrls: string[] = [];
             for (const file of files) {
-                const publicUrl = await uploadToSupabase(file, targetSlug);
+                const publicUrl = await uploadToSupabase(file, targetSlug, bucketName);
                 if (publicUrl) {
                     uploadedUrls.push(publicUrl);
                 }

@@ -6,6 +6,7 @@ const prisma = new PrismaClient();
 async function main() {
     const email = 'admin@example.com';
     const password = 'admin123';
+    // Hashing password for security
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const existingAdmin = await prisma.admin.findUnique({

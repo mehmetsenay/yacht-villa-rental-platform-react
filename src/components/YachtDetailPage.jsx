@@ -10,6 +10,7 @@ import PremiumServices from './PremiumServices';
 
 import { useTranslation } from 'react-i18next';
 import { getBackendUrl, getImageUrl as getFullImageUrl } from '../utils/urlHelper';
+import LoadingSpinner from './ui/LoadingSpinner';
 
 const YachtDetailPage = () => {
   const { t, i18n } = useTranslation();
@@ -121,9 +122,9 @@ const YachtDetailPage = () => {
     fetchSimilarYachts();
   }, [id]);
 
-  if (loading) return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Yükleniyor...</div>;
+  if (loading) return <LoadingSpinner />;
   if (error) return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'red' }}>{error}</div>;
-  if (!yacht) return <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Yükleniyor...</div>;
+  if (!yacht) return <LoadingSpinner />;
 
   // Calculation Logic
   const calculateTotal = () => {

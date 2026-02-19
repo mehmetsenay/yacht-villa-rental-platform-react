@@ -8,6 +8,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import tr from 'date-fns/locale/tr';
 import en from 'date-fns/locale/en-US';
 import PremiumServices from './PremiumServices';
+import SkeletonCard from './ui/SkeletonCard';
+import NProgress from 'nprogress';
 
 registerLocale('tr', tr);
 registerLocale('en', en);
@@ -50,6 +52,7 @@ const ListingPage = () => {
 
     const fetchProperties = async () => {
         setLoading(true);
+        NProgress.start();
         try {
             const targetType = typeKey === 'villas' ? 'VILLA' : 'YACHT';
 
@@ -72,6 +75,7 @@ const ListingPage = () => {
             setError(t('listing.error'));
         } finally {
             setLoading(false);
+            NProgress.done();
         }
     };
 
@@ -133,7 +137,13 @@ const ListingPage = () => {
                 </h1>
 
 
-                {loading && <div style={{ textAlign: 'center', padding: 40 }}>{t('listing.loading')}</div>}
+                {loading && (
+                    <div className="listings-grid" style={{ marginTop: 40 }}>
+                        {[1, 2, 3, 4, 5, 6].map((n) => (
+                            <SkeletonCard key={n} />
+                        ))}
+                    </div>
+                )}
                 {error && <div style={{ textAlign: 'center', padding: 40, color: 'red' }}>{error}</div>}
 
 

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getBackendUrl, getImageUrl as getFullImageUrl } from '../utils/urlHelper';
-import { LayoutDashboard, List, Settings, LogOut, Trash2, Edit2, Plus, Save, Upload } from 'lucide-react';
+import LoadingSpinner from './ui/LoadingSpinner';
+import { LayoutDashboard, List, Settings, LogOut, Trash2, Edit2, Plus, Save, Upload, Loader2 } from 'lucide-react';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -11,6 +12,9 @@ const AdminDashboard = () => {
     const [bookings, setBookings] = useState([]);
     const [properties, setProperties] = useState([]);
     const [loading, setLoading] = useState(true);
+    // Action States
+    const [isSaving, setIsSaving] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(null); // stores ID of item being deleted
     const navigate = useNavigate();
 
     const [showModal, setShowModal] = useState(false);
@@ -119,6 +123,7 @@ const AdminDashboard = () => {
     const handleDeleteProperty = async (id) => {
         if (!window.confirm("Bu ilanı silmek istediğinize emin misiniz?")) return;
         const token = localStorage.getItem('adminToken');
+        setIsDeleting(id);
         try {
             await fetch(`${getBackendUrl()}/api/properties/${id}`, {
                 method: 'DELETE',
@@ -127,6 +132,8 @@ const AdminDashboard = () => {
             fetchData(token); // Refresh
         } catch (error) {
             console.error(error);
+        } finally {
+            setIsDeleting(null);
         }
     };
 
@@ -307,6 +314,9 @@ const AdminDashboard = () => {
             }
         }
 
+
+
+        setIsSaving(true);
         try {
             const url = editingProperty
                 ? `${getBackendUrl()}/api/properties/${editingProperty.id}`
@@ -379,7 +389,7 @@ const AdminDashboard = () => {
 
                 <div style={styles.content}>
                     {loading ? (
-                        <div>Yükleniyor...</div>
+                        <LoadingSpinner fullScreen={false} />
                     ) : (
                         <>
                             {activeTab === 'reservations' && (
@@ -439,13 +449,30 @@ const AdminDashboard = () => {
                                     <div style={styles.grid}>
                                         {properties.map(item => (
                                             <div key={item.id} style={styles.listingCard}>
-                                                <div style={{ ...styles.listingImage, backgroundImage: `url(${item.images && item.images.length > 0 ? getImageUrl(item.images[0].url) : 'https://placehold.co/600x400'})` }}></div>
+                                                <div style={{ ...styles.listingImage, backgroundImage: `url(${item.images && item.images.length > 0 ? getImageUrl(item.images[0].url) : 'https://placehold.co/600x400'})` }}>
+                                                    <span style={{
+                                                        position: 'absolute',
+                                                        top: 10,
+                                                        right: 10,
+                                                        background: 'rgba(0,0,0,0.6)',
+                                                        color: 'white',
+                                                        padding: '4px 8px',
+                                                        borderRadius: '6px',
+                                                        fontSize: '0.75rem',
+                                                        fontWeight: '600',
+                                                        backdropFilter: 'blur(4px)'
+                                                    }}>
+                                                        {item.type === 'VILLA' ? 'Villa' : (item.type === 'YACHT' ? 'Yat' : item.type)}
+                                                    </span>
+                                                </div>
                                                 <div style={styles.listingInfo}>
                                                     <h3 style={styles.listingTitle}>{item.name}</h3>
                                                     <p style={{ color: '#86868b', fontSize: '0.9rem' }}>{item.location}</p>
                                                     <div style={styles.listingActions}>
-                                                        <button style={styles.iconBtn} onClick={() => handleOpenModal(item)}><Edit2 size={18} /></button>
-                                                        <button style={{ ...styles.iconBtn, color: '#ff3b30' }} onClick={() => handleDeleteProperty(item.id)}><Trash2 size={18} /></button>
+                                                        <button style={styles.iconBtn} onClick={() => handleOpenModal(item)} disabled={isDeleting === item.id}><Edit2 size={18} /></button>
+                                                        <button style={{ ...styles.iconBtn, color: '#ff3b30', opacity: isDeleting === item.id ? 0.5 : 1 }} onClick={() => handleDeleteProperty(item.id)} disabled={isDeleting === item.id}>
+                                                            {isDeleting === item.id ? <Loader2 size={18} className="spin" /> : <Trash2 size={18} />}
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -666,8 +693,10 @@ const AdminDashboard = () => {
                             </div>
 
                             <div style={styles.modalActions}>
-                                <button type="button" style={styles.cancelBtn} onClick={() => setShowModal(false)}>İptal</button>
-                                <button type="submit" style={styles.primaryBtn}>Kaydet</button>
+                                <button type="button" style={styles.cancelBtn} onClick={() => setShowModal(false)} disabled={isSaving}>İptal</button>
+                                <button type="submit" style={styles.primaryBtn} disabled={isSaving}>
+                                    {isSaving ? <><Loader2 size={18} className="spin" /> Kaydediliyor...</> : 'Kaydet'}
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -681,6 +710,13 @@ const AdminDashboard = () => {
 import { X } from 'lucide-react';
 
 const styles = {
+    spin: `
+            @keyframes spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+            .spin { animation: spin 1s linear infinite; }
+        `,
     container: {
         display: 'flex',
         height: '100vh',

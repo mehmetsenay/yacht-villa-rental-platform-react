@@ -7,7 +7,9 @@ import path from 'path';
 const prisma = new PrismaClient();
 
 export const getSettings = async (req: Request, res: Response) => {
+    console.log('getSettings called');
     try {
+        console.log('Prisma finding settings...');
         let settings = await prisma.settings.findFirst();
 
         if (!settings) {
@@ -17,10 +19,11 @@ export const getSettings = async (req: Request, res: Response) => {
             });
         }
 
+        console.log('Settings retrieved:', settings);
         res.json(settings);
     } catch (error) {
         console.error('Get settings error:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error: 'Internal server error', details: String(error) });
     }
 };
 
