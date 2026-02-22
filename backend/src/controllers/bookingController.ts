@@ -33,11 +33,11 @@ export const createBooking = async (req: Request, res: Response) => {
             return;
         }
 
-        // Check for collisions
+        // Check for collisions — only CONFIRMED bookings block new reservations
         const existingBooking = await prisma.booking.findFirst({
             where: {
                 propertyId: propertyId,
-                status: { in: ['CONFIRMED', 'PENDING'] },
+                status: { in: ['CONFIRMED'] },
                 startDate: { lt: end },
                 endDate: { gt: start }
             }
