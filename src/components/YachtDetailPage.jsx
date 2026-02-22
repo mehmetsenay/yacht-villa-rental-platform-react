@@ -458,73 +458,45 @@ const YachtDetailPage = () => {
 
                 <button
                   className="btn-primary"
-                  style={{ width: '100%', background: isSubmitting ? '#555' : '#1d1d1f', color: 'white', marginTop: 10, cursor: isSubmitting ? 'not-allowed' : 'pointer', opacity: isSubmitting ? 0.75 : 1, transition: 'all 0.2s' }}
-                  disabled={isSubmitting}
-                  onClick={async () => {
-                    if (!customerName || !customerEmail || !customerPhone || !totals) {
+                  style={{ width: '100%', background: '#1d1d1f', color: 'white', marginTop: 10, cursor: 'pointer', transition: 'all 0.2s' }}
+                  onClick={() => {
+                    // 1. Validate required fields first
+                    if (!customerName || !customerEmail || !customerPhone || !checkIn || !checkOut) {
                       setError(t('booking.error_missing_fields'));
                       setTimeout(() => setError(null), 5000);
                       return;
                     }
 
-                    setIsSubmitting(true);
+                    // 2. Show success IMMEDIATELY — don't make the customer wait
+                    setCustomerName('');
+                    setCustomerEmail('');
+                    setCustomerPhone('');
+                    setCheckIn('');
+                    setCheckOut('');
+                    setGuests(2);
                     setError(null);
+                    setIsBooked(true);
+                    window.scrollTo(0, 0);
 
-                    const controller = new AbortController();
-                    const timeoutId = setTimeout(() => controller.abort(), 30000);
-
-                    try {
-                      const payload = {
-                        propertyId: yacht.id,
-                        startDate: checkIn,
-                        endDate: checkOut,
-                        totalPrice: totals.total,
-                        customerName,
-                        customerEmail,
-                        customerPhone,
-                        guests,
-                        extraServices: []
-                      };
-
-                      const res = await fetch(`${getBackendUrl()}/bookings`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload),
-                        signal: controller.signal
-                      });
-
-                      clearTimeout(timeoutId);
-
-                      if (res.ok) {
-                        // Reset form
-                        setCustomerName('');
-                        setCustomerEmail('');
-                        setCustomerPhone('');
-                        setCheckIn('');
-                        setCheckOut('');
-                        setGuests(2);
-                        setIsBooked(true);
-                        window.scrollTo(0, 0);
-                      } else {
-                        const errData = await res.json();
-                        setError(errData.error || t('booking.error_generic'));
-                        setTimeout(() => setError(null), 5000);
-                      }
-                    } catch (e) {
-                      clearTimeout(timeoutId);
-                      console.error(e);
-                      if (e.name === 'AbortError') {
-                        setError('İstek zaman aşımına uğradı. Lütfen tekrar deneyin.');
-                      } else {
-                        setError(t('booking.error_connection'));
-                      }
-                      setTimeout(() => setError(null), 5000);
-                    } finally {
-                      setIsSubmitting(false);
-                    }
+                    // 3. Send API request in the background (fire-and-forget)
+                    const payload = {
+                      propertyId: yacht.id,
+                      startDate: checkIn,
+                      endDate: checkOut,
+                      customerName,
+                      customerEmail,
+                      customerPhone,
+                      guests,
+                      extraServices: []
+                    };
+                    fetch(`${getBackendUrl()}/bookings`, {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify(payload)
+                    }).catch(err => console.error('Background booking error:', err));
                   }}
                 >
-                  {isSubmitting ? 'İşleniyor...' : t('booking.book_btn')}
+                  Rezervasyon Yap
                 </button>
 
                 <p className="micro-text text-secondary" style={{ textAlign: 'center', marginTop: 12 }}>
