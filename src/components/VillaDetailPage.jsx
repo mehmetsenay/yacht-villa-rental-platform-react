@@ -229,13 +229,15 @@ const VillaDetailPage = () => {
 
       {/* Success Modal */}
       {isBooked && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999 }}>
-          <div style={{ background: 'white', borderRadius: 24, padding: '48px 40px', maxWidth: 480, width: '90%', textAlign: 'center', boxShadow: '0 30px 80px rgba(0,0,0,0.3)' }}>
-            <div style={{ fontSize: '3.5rem', marginBottom: 16 }}>✅</div>
-            <h2 style={{ fontSize: '1.8rem', fontWeight: 700, marginBottom: 12, color: '#1d1d1f' }}>{t('booking.success_title')}</h2>
-            <p style={{ fontSize: '1.05rem', color: '#555', lineHeight: 1.6, marginBottom: 32 }}>{t('booking.success_message')}</p>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999 }}>
+          <div style={{ background: 'white', borderRadius: 24, padding: '48px 40px', maxWidth: 460, width: '90%', textAlign: 'center', boxShadow: '0 30px 80px rgba(0,0,0,0.25)' }}>
+            <div style={{ width: 80, height: 80, background: 'linear-gradient(135deg,#34d399,#10b981)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px', boxShadow: '0 8px 24px rgba(16,185,129,0.35)' }}>
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+            </div>
+            <h2 style={{ fontSize: '1.6rem', fontWeight: 700, marginBottom: 12, color: '#1d1d1f' }}>Talebiniz Alındı!</h2>
+            <p style={{ fontSize: '1rem', color: '#555', lineHeight: 1.7, marginBottom: 32 }}>Temsilcimiz en kısa sürede sizinle iletişime geçecektir.</p>
             <a href="/" style={{ display: 'inline-block', textDecoration: 'none', color: 'white', background: '#1d1d1f', padding: '14px 32px', borderRadius: 100, fontWeight: 600, fontSize: '1rem' }}>
-              {t('booking.back_home')}
+              Anasayfaya Dön
             </a>
           </div>
         </div>
@@ -561,7 +563,7 @@ const VillaDetailPage = () => {
                     }
                   }}
                 >
-                  {isSubmitting ? '⏳ Gönderiliyor...' : 'Rezervasyon Yap'}
+                  {isSubmitting ? 'İşleniyor...' : 'Rezervasyon Yap'}
                 </button>
 
                 <p className="micro-text text-secondary" style={{ textAlign: 'center', marginTop: 12 }}>

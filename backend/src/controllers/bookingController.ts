@@ -113,3 +113,25 @@ export const getBookings = async (req: Request, res: Response) => {
         res.status(500).json({ error: 'Failed to fetch bookings' });
     }
 };
+
+export const updateBookingStatus = async (req: Request, res: Response) => {
+    const id = req.params.id as string;
+    const { status } = req.body;
+
+    const validStatuses = ['PENDING', 'CONFIRMED', 'CANCELLED'];
+    if (!validStatuses.includes(status)) {
+        res.status(400).json({ error: 'Invalid status. Must be PENDING, CONFIRMED, or CANCELLED.' });
+        return;
+    }
+
+    try {
+        const updated = await prisma.booking.update({
+            where: { id },
+            data: { status }
+        });
+        res.json(updated);
+    } catch (error) {
+        console.error('Status update error:', error);
+        res.status(500).json({ error: 'Failed to update booking status' });
+    }
+};
