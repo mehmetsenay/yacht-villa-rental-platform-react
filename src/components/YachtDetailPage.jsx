@@ -43,10 +43,16 @@ const YachtDetailPage = () => {
   const [checkIn, setCheckIn] = useState('');
   const [checkOut, setCheckOut] = useState('');
   const [guests, setGuests] = useState(2);
+  const [isBooked, setIsBooked] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [extras, setExtras] = useState({
     vipTransfer: false,
     privateChef: false
   });
+  // Controlled customer form inputs
+  const [customerName, setCustomerName] = useState('');
+  const [customerEmail, setCustomerEmail] = useState('');
+  const [customerPhone, setCustomerPhone] = useState('');
 
   const checkInRef = useRef(null);
   const checkOutRef = useRef(null);
@@ -171,6 +177,20 @@ const YachtDetailPage = () => {
           images={yacht.gallery}
           onClose={() => setIsGalleryOpen(false)}
         />
+      )}
+
+      {/* Success Modal */}
+      {isBooked && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(6px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999 }}>
+          <div style={{ background: 'white', borderRadius: 24, padding: '48px 40px', maxWidth: 480, width: '90%', textAlign: 'center', boxShadow: '0 30px 80px rgba(0,0,0,0.3)' }}>
+            <div style={{ fontSize: '3.5rem', marginBottom: 16 }}>✅</div>
+            <h2 style={{ fontSize: '1.8rem', fontWeight: 700, marginBottom: 12, color: '#1d1d1f' }}>{t('booking.success_title')}</h2>
+            <p style={{ fontSize: '1.05rem', color: '#555', lineHeight: 1.6, marginBottom: 32 }}>{t('booking.success_message')}</p>
+            <a href="/" style={{ display: 'inline-block', textDecoration: 'none', color: 'white', background: '#1d1d1f', padding: '14px 32px', borderRadius: 100, fontWeight: 600, fontSize: '1rem' }}>
+              {t('booking.back_home')}
+            </a>
+          </div>
+        </div>
       )}
 
       <div className="container" style={{ paddingTop: 0, paddingBottom: 80 }}>
@@ -405,9 +425,27 @@ const YachtDetailPage = () => {
                 {/* Customer Info Form */}
                 <div style={{ marginTop: 20 }}>
                   <h4 style={{ marginBottom: 10 }}>{t('booking.contact_info_title')}</h4>
-                  <input type="text" placeholder={t('booking.placeholder_name')} style={{ width: '100%', padding: '10px', marginBottom: 10, borderRadius: 8, border: '1px solid #ddd' }} id="customerName" />
-                  <input type="email" placeholder={t('booking.placeholder_email')} style={{ width: '100%', padding: '10px', marginBottom: 10, borderRadius: 8, border: '1px solid #ddd' }} id="customerEmail" />
-                  <input type="tel" placeholder={t('booking.placeholder_phone')} style={{ width: '100%', padding: '10px', marginBottom: 10, borderRadius: 8, border: '1px solid #ddd' }} id="customerPhone" />
+                  <input
+                    type="text"
+                    placeholder={t('booking.placeholder_name')}
+                    style={{ width: '100%', padding: '10px', marginBottom: 10, borderRadius: 8, border: '1px solid #ddd', boxSizing: 'border-box' }}
+                    value={customerName}
+                    onChange={(e) => setCustomerName(e.target.value)}
+                  />
+                  <input
+                    type="email"
+                    placeholder={t('booking.placeholder_email')}
+                    style={{ width: '100%', padding: '10px', marginBottom: 10, borderRadius: 8, border: '1px solid #ddd', boxSizing: 'border-box' }}
+                    value={customerEmail}
+                    onChange={(e) => setCustomerEmail(e.target.value)}
+                  />
+                  <input
+                    type="tel"
+                    placeholder={t('booking.placeholder_phone')}
+                    style={{ width: '100%', padding: '10px', marginBottom: 10, borderRadius: 8, border: '1px solid #ddd', boxSizing: 'border-box' }}
+                    value={customerPhone}
+                    onChange={(e) => setCustomerPhone(e.target.value)}
+                  />
                 </div>
 
                 {error && (
@@ -418,17 +456,20 @@ const YachtDetailPage = () => {
 
                 <button
                   className="btn-primary"
-                  style={{ width: '100%', background: '#1d1d1f', color: 'white', marginTop: 10 }}
+                  style={{ width: '100%', background: isSubmitting ? '#555' : '#1d1d1f', color: 'white', marginTop: 10, cursor: isSubmitting ? 'not-allowed' : 'pointer', opacity: isSubmitting ? 0.75 : 1, transition: 'all 0.2s' }}
+                  disabled={isSubmitting}
                   onClick={async () => {
-                    const name = document.getElementById('customerName').value;
-                    const email = document.getElementById('customerEmail').value;
-                    const phone = document.getElementById('customerPhone').value;
-
-                    if (!name || !email || !phone || !totals) {
+                    if (!customerName || !customerEmail || !customerPhone || !totals) {
                       setError(t('booking.error_missing_fields'));
                       setTimeout(() => setError(null), 5000);
                       return;
                     }
+
+                    setIsSubmitting(true);
+                    setError(null);
+
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 30000);
 
                     try {
                       const payload = {
@@ -436,41 +477,52 @@ const YachtDetailPage = () => {
                         startDate: checkIn,
                         endDate: checkOut,
                         totalPrice: totals.total,
-                        customerName: name,
-                        customerEmail: email,
-                        customerPhone: phone,
-                        guests: guests,
-                        extraServices: [] // Can be implemented if needed
+                        customerName,
+                        customerEmail,
+                        customerPhone,
+                        guests,
+                        extraServices: []
                       };
 
                       const res = await fetch(`${getBackendUrl()}/bookings`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
+                        body: JSON.stringify(payload),
+                        signal: controller.signal
                       });
 
+                      clearTimeout(timeoutId);
+
                       if (res.ok) {
-                        // Success Screen (Simple replacement for now)
-                        document.body.innerHTML = `
-                                <div style="height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
-                                    <h1 style="font-size:3rem; margin-bottom:20px;">${t('booking.success_title')}</h1>
-                                    <p style="font-size:1.5rem; color: #666;">${t('booking.success_message')}</p>
-                                    <a href="/" style="margin-top:40px; text-decoration:none; color:white; background:black; padding:15px 30px; border-radius:100px;">${t('booking.back_home')}</a>
-                                </div>
-                             `;
+                        // Reset form
+                        setCustomerName('');
+                        setCustomerEmail('');
+                        setCustomerPhone('');
+                        setCheckIn('');
+                        setCheckOut('');
+                        setGuests(2);
+                        setIsBooked(true);
+                        window.scrollTo(0, 0);
                       } else {
-                        const err = await res.json();
-                        setError(err.error || t('booking.error_generic'));
+                        const errData = await res.json();
+                        setError(errData.error || t('booking.error_generic'));
                         setTimeout(() => setError(null), 5000);
                       }
                     } catch (e) {
+                      clearTimeout(timeoutId);
                       console.error(e);
-                      setError(t('booking.error_connection'));
+                      if (e.name === 'AbortError') {
+                        setError('İstek zaman aşımına uğradı. Lütfen tekrar deneyin.');
+                      } else {
+                        setError(t('booking.error_connection'));
+                      }
                       setTimeout(() => setError(null), 5000);
+                    } finally {
+                      setIsSubmitting(false);
                     }
                   }}
                 >
-                  {t('booking.book_btn')}
+                  {isSubmitting ? '⏳ Gönderiliyor...' : t('booking.book_btn')}
                 </button>
 
                 <p className="micro-text text-secondary" style={{ textAlign: 'center', marginTop: 12 }}>
